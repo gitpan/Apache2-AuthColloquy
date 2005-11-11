@@ -1,0 +1,7 @@
+Apache2::AuthColloquy is an Apache 2 authentication module. It will
+authenticate against a Colloquy users.lua user database file using
+the newer password2 field.
+
+This script munges the users.lua file in to executable perl code
+which is then evaluated. It should therefore be used with caution
+if you cannot gaurentee the integrity of the users.lua file.

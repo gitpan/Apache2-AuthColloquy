@@ -10,7 +10,7 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = '0.01';
+$VERSION = sprintf('%d.%02d', q$Revision: 1.5 $ =~ /(\d+)/g);
 
 # test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -53,6 +53,12 @@ sub handler {
 			$r->uri);
 		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
 	}
+
+	# In the future, add a check to ensure that the users.lua file
+	# does not have world write permissions set.
+	#
+	#
+	#
 
 	# Check we can read the database file
 	unless (-r $users_lua) {
@@ -114,9 +120,10 @@ Apache2::AuthColloquy - mod_perl module that allows authentication against the C
 
 =head1 SYNOPSIS
 
- AuthName "Colloquy Test Auth"
+ AuthName "Talker Members Area"
  AuthType Basic
 
+ # Full path to your users.lua file
  PerlSetVar users_lua /home/system/colloquy/data/users.lua
 
  # Set if you want to allow an alternate method of authentication
@@ -125,13 +132,30 @@ Apache2::AuthColloquy - mod_perl module that allows authentication against the C
  require valid-user
  PerlAuthenHandler Apache2::AuthColloquy
 
+=head1 DESCRIPTION
+
+Apache2::AuthColloquy is an Apache 2 authentication module. It will
+authenticate against a Colloquy users.lua user database file using
+the newer password2 field.
+
+This script munges the users.lua file in to executable perl code
+which is then evaluated. It should therefore be used with caution
+if you cannot gaurentee the integrity of the users.lua file.
+
 =head1 VERSION
 
-$Recision$
+$Revision: 1.5 $
 
 =head1 AUTHOR
 
 Nicola Worthington <nicolaw@cpan.org>
 
+http://www.nicolaworthington.com
+
+$Author: nicolaw $
+
 =cut
+
+__END__
+
 
