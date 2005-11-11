@@ -1,0 +1,18 @@
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Apache2-AuthColloquy
+version:      0.01
+version_from: lib/Apache2/AuthColloquy.pm
+installdirs:  site
+requires:
+    Apache2::Access:               0
+    Apache2::Connection:           0
+    Apache2::Const:                0
+    Apache2::Log:                  0
+    Apache2::RequestRec:           0
+    Apache2::RequestUtil:          0
+    MD5:                           0
+    mod_perl2:                     0
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.17

@@ -1,0 +1,9 @@
+INSTALL
+COPYING
+Changes
+META.yml
+MANIFEST
+Makefile.PL
+TODO
+README
+lib/Apache2/AuthColloquy.pm
