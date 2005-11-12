@@ -8,6 +8,7 @@ WriteMakefile(
    ABSTRACT_FROM => 'lib/Apache2/AuthColloquy.pm',
    AUTHOR        => 'Nicola Worthington <nicolaworthington@msn.com>',
    PREREQ_PM     => { 'MD5'  => 0,
+                      'Colloquy::Data' => '1.02',
                       'Apache2::Access' => 0,
                       'Apache2::Connection' => 0,
                       'Apache2::Log' => 0,

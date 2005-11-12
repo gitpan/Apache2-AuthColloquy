@@ -5,12 +5,13 @@ use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 
 use MD5;
 use mod_perl2;
+use Colloquy::Data qw(:all);
 
 require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.5 $ =~ /(\d+)/g);
+$VERSION = sprintf('%d.%02d', q$Revision: 1.7 $ =~ /(\d+)/g);
 
 # test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -28,7 +29,7 @@ sub handler {
 	return $result if $result;
 
 	my $user = $r->user;
-	my $users_lua = $r->dir_config('users_lua') || '/usr/local/colloquy/data/users.lua';
+	my $users_lua = $r->dir_config('users_lua') || '/usr/local/colloquy/data';
 	my $allowaltauth = $r->dir_config('AllowAlternateAuth') || 'no';
 
 	# remove the domainname if logging in from winxp
@@ -41,73 +42,48 @@ sub handler {
 	# Check we have a password
 	unless (length($password)) {
 		$r->note_basic_auth_failure;
-		$r->log_error("user $user: no password supplied", $r->uri);
+		$r->log_error("user $user: no password supplied for URI ", $r->uri);
 		return Apache2::Const::HTTP_UNAUTHORIZED;
 	}
 
-	# Check the database file exists
-	unless (-f $users_lua) {
-		$r->note_basic_auth_failure;
-		$r->log_error(
-			"user $user: no such users_lua database file: $users_lua",
-			$r->uri);
-		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
-	}
-
-	# In the future, add a check to ensure that the users.lua file
-	# does not have world write permissions set.
-	#
-	#
-	#
+	# Read the database
+	my $users = {};
+	eval {
+		($users) = Colloquy::Data::users($users_lua);
+	};
 
 	# Check we can read the database file
-	unless (-r $users_lua) {
+	if ($@) {
 		$r->note_basic_auth_failure;
 		$r->log_error(
-			"user $user: unable to read users_lua database file: $users_lua",
+			"user $user: unable to read users_lua database '$users_lua': $@ at URI ",
 			$r->uri);
 		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
 	}
 
-	# Read the database file
-	my $users = _get_data($users_lua);
-
 	# Check we have found that user
-	unless (exists $users->{"$user"}->{password2}) {
+	unless (exists $users->{"$user"}->{password2} || exists $users->{"$user"}->{password}) {
 		$r->note_basic_auth_failure;
 		$r->log_error(
-			"user $user: invalid password",
+			"user $user: no valid user found for URI ",
 			$r->uri);
 		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
 	}
 
 	# Now check the password
-	my $db_password_hash = $users->{"$user"}->{password2} || '_no_db_passd_';
+	my $db_password_hash = $users->{"$user"}->{password2} || $users->{"$user"}->{password} || '_no_db_passd_';
 	my $our_password_hash = MD5->hexhash("$user$password") || '_no_usr_passd_';
 	if ($our_password_hash eq $db_password_hash) {
 		return Apache2::Const::OK;
 	} else {
+		$r->log_error(
+			"user $user: invalid password for URI ",
+			$r->uri);
 		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
 	}
 
 	# Otherwise fail
 	return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
-}
-
-sub _get_data {
-	my $users_lua = shift;
-	my $users = {};
-	if (open(FH,"<$users_lua")) {
-		local $/ = undef;
-		my $coderef = <FH>;
-		close(FH);
-		$coderef = "\$$coderef;";
-		$coderef =~ s/'/\\'/g;
-		$coderef =~ s/"/'/g; #"'
-		$coderef =~ s/(\s+[a-z0-9]+\s+=)(\s+['{\d+])/$1>$2/gi;
-		eval $coderef;
-	}
-	return $users;
 }
 
 1;
@@ -116,15 +92,15 @@ sub _get_data {
 
 =head1 NAME
 
-Apache2::AuthColloquy - mod_perl module that allows authentication against the Colloquy users.lua file
+Apache2::AuthColloquy - mod_perl authentication against the Colloquy users.lua file
 
 =head1 SYNOPSIS
 
  AuthName "Talker Members Area"
  AuthType Basic
 
- # Full path to your users.lua file
- PerlSetVar users_lua /home/system/colloquy/data/users.lua
+ # Full path to your users.lua file or users/ directory
+ PerlSetVar users_lua /home/system/colloquy/data
 
  # Set if you want to allow an alternate method of authentication
  PerlSetVar AllowAlternateAuth yes | no
@@ -140,11 +116,16 @@ the newer password2 field.
 
 This script munges the users.lua file in to executable perl code
 which is then evaluated. It should therefore be used with caution
-if you cannot gaurentee the integrity of the users.lua file.
+if you cannot gaurentee the integrity of the users.lua file. See
+Colloquy::Data for more details.
 
 =head1 VERSION
 
-$Revision: 1.5 $
+$Revision: 1.7 $
+
+=head1 SEE ALSO
+
+Colloquy::Data
 
 =head1 AUTHOR
 
