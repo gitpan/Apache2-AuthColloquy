@@ -11,7 +11,7 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.7 $ =~ /(\d+)/g);
+$VERSION = sprintf('%d.%02d', q$Revision: 1.8 $ =~ /(\d+)/g);
 
 # test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -37,6 +37,16 @@ sub handler {
 	my $domain = '';
 	if ($user =~ m|(\w+)[\\/](.+)|) {
 		($domain, $user) = ($1, $2);
+	}
+
+	# Check that the username doesn't contain characters
+	# denied by Colloquy in main.lua
+	if ($user =~ /\[\!\;\'\:\@\?\,\`\.\]\s/) {
+		$r->note_basic_auth_failure;
+		$r->log_error(
+			"user $user: invalid username contains disallowed characters ",
+			$r->uri);
+		return (lc($allowaltauth) eq "yes" ? Apache2::Const::DECLINED : Apache2::Const::HTTP_UNAUTHORIZED);
 	}
 
 	# Check we have a password
@@ -121,7 +131,7 @@ Colloquy::Data for more details.
 
 =head1 VERSION
 
-$Revision: 1.7 $
+$Revision: 1.8 $
 
 =head1 SEE ALSO
 
