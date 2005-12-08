@@ -11,7 +11,7 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.8 $ =~ /(\d+)/g);
+$VERSION = sprintf('%d.%02d', q$Revision: 1.9 $ =~ /(\d+)/g);
 
 # test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -129,21 +129,27 @@ which is then evaluated. It should therefore be used with caution
 if you cannot gaurentee the integrity of the users.lua file. See
 Colloquy::Data for more details.
 
-=head1 VERSION
-
-$Revision: 1.8 $
-
 =head1 SEE ALSO
 
-Colloquy::Data
+L<Colloquy::Data>
+
+=head1 VERSION
+
+$Id: AuthColloquy.pm,v 1.9 2005/12/08 15:18:09 nicolaw Exp $
 
 =head1 AUTHOR
 
 Nicola Worthington <nicolaw@cpan.org>
 
-http://www.nicolaworthington.com
+http://perlgirl.org.uk
 
-$Author: nicolaw $
+=head1 COPYRIGHT
+
+(c) Nicola Worthington 2005. This program is free software; you can
+redistribute it and/or modify it under the GNU GPL.
+
+See the file COPYING in this distribution, or
+http://www.gnu.org/licenses/gpl.txt 
 
 =cut
 
