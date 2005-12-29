@@ -1,3 +1,25 @@
+############################################################
+# $Id: AuthColloquy.pm,v 1.10 2005/12/29 18:28:52 nicolaw Exp $
+# Apache2::AuthColloquy - mod_perl authentication against the Colloquy users.lua file
+# Copyright: (c)2005 Nicola Worthington. All rights reserved.
+############################################################
+# This file is part of Apache2::AuthColloquy.
+#
+# Apache2::AuthColloquy is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Apache2::AuthColloquy is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Apache2::AuthColloquy; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+############################################################
+
 package Apache2::AuthColloquy;
 
 use strict;
@@ -11,7 +33,7 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.9 $ =~ /(\d+)/g);
+$VERSION = sprintf('%d.%02d', q$Revision: 1.10 $ =~ /(\d+)/g);
 
 # test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -135,13 +157,13 @@ L<Colloquy::Data>
 
 =head1 VERSION
 
-$Id: AuthColloquy.pm,v 1.9 2005/12/08 15:18:09 nicolaw Exp $
+$Id: AuthColloquy.pm,v 1.10 2005/12/29 18:28:52 nicolaw Exp $
 
 =head1 AUTHOR
 
 Nicola Worthington <nicolaw@cpan.org>
 
-http://perlgirl.org.uk
+L<http://perlgirl.org.uk>
 
 =head1 COPYRIGHT
 
@@ -149,7 +171,7 @@ http://perlgirl.org.uk
 redistribute it and/or modify it under the GNU GPL.
 
 See the file COPYING in this distribution, or
-http://www.gnu.org/licenses/gpl.txt 
+L<http://www.gnu.org/licenses/gpl.txt>
 
 =cut
 
