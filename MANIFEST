@@ -1,9 +1,13 @@
 Changes
 INSTALL
-COPYING
+LICENSE
+NOTICE
 META.yml
 MANIFEST
 Makefile.PL
 TODO
 README
 lib/Apache2/AuthColloquy.pm
+t/00compile.t
+t/02pod_coverage.t
+t/01pod.t

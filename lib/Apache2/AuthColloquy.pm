@@ -1,26 +1,26 @@
 ############################################################
-# $Id: AuthColloquy.pm,v 1.10 2005/12/29 18:28:52 nicolaw Exp $
-# Apache2::AuthColloquy - mod_perl authentication against the Colloquy users.lua file
-# Copyright: (c)2005 Nicola Worthington. All rights reserved.
-############################################################
-# This file is part of Apache2::AuthColloquy.
 #
-# Apache2::AuthColloquy is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+#   $Id: AuthColloquy.pm,v 1.12 2006/01/07 12:07:18 nicolaw Exp $
+#   Apache2::AuthColloquy - mod_perl authentication against the Colloquy users.lua file
 #
-# Apache2::AuthColloquy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+#   Copyright 2005,2006 Nicola Worthington
 #
-# You should have received a copy of the GNU General Public License
-# along with Apache2::AuthColloquy; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ############################################################
 
 package Apache2::AuthColloquy;
+# vim:ts=4:sw=4:tw=78
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
@@ -33,9 +33,9 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.10 $ =~ /(\d+)/g);
+$VERSION = sprintf('%d.%02d', q$Revision: 1.12 $ =~ /(\d+)/g);
 
-# test for the version of mod_perl, and use the appropriate libraries
+# Test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
 require Apache2::Connection;
 require Apache2::Log;
@@ -157,7 +157,7 @@ L<Colloquy::Data>
 
 =head1 VERSION
 
-$Id: AuthColloquy.pm,v 1.10 2005/12/29 18:28:52 nicolaw Exp $
+$Id: AuthColloquy.pm,v 1.12 2006/01/07 12:07:18 nicolaw Exp $
 
 =head1 AUTHOR
 
@@ -167,11 +167,11 @@ L<http://perlgirl.org.uk>
 
 =head1 COPYRIGHT
 
-(c) Nicola Worthington 2005. This program is free software; you can
-redistribute it and/or modify it under the GNU GPL.
+Copyright 2005,2006 Nicola Worthington.
 
-See the file COPYING in this distribution, or
-L<http://www.gnu.org/licenses/gpl.txt>
+This software is licensed under The Apache Software License, Version 2.0.
+
+L<http://www.apache.org/licenses/LICENSE-2.0>
 
 =cut
 

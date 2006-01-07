@@ -94,7 +94,7 @@ eval {
 if ($@) {
 	print "Unfortunately I failed to send the information. Thank you anyway.\n";
 } else {
-	print $resp || "Thank you for sending this information.\n";
+	print substr($resp,0,500) || "Thank you for sending this information.\n";
 }
 
 # Finish
