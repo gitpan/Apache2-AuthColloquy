@@ -1,3 +1,6 @@
+Version 1.13 - 20th March 2006
+    + Changed to use Module::Build
+
 Version 1.12 - 7th January 2006
     + Added basic unit tests
 

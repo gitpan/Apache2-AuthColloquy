@@ -1,6 +1,6 @@
 ############################################################
 #
-#   $Id: AuthColloquy.pm,v 1.12 2006/01/07 12:07:18 nicolaw Exp $
+#   $Id$
 #   Apache2::AuthColloquy - mod_perl authentication against the Colloquy users.lua file
 #
 #   Copyright 2005,2006 Nicola Worthington
@@ -33,7 +33,7 @@ require Exporter;
 
 @ISA = qw(Exporter AutoLoader);
 @EXPORT = qw();
-$VERSION = sprintf('%d.%02d', q$Revision: 1.12 $ =~ /(\d+)/g);
+$VERSION = '1.13' || sprintf('%d.%02d', q$Revision: 1.12 $ =~ /(\d+)/g);
 
 # Test for the version of mod_perl, and use the appropriate libraries
 require Apache2::Access;
@@ -157,7 +157,7 @@ L<Colloquy::Data>
 
 =head1 VERSION
 
-$Id: AuthColloquy.pm,v 1.12 2006/01/07 12:07:18 nicolaw Exp $
+$Id$
 
 =head1 AUTHOR
 
